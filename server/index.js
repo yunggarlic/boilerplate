@@ -19,7 +19,7 @@ app.use('/api', apiRoutes);
 
 //just gettin it
 app.get('*', (req, res) => {
-  res.send('Hello world');
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 app.use((err, req, res, next) => {

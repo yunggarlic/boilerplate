@@ -23,11 +23,11 @@ export const postUser = (user) => {
 };
 
 //REDUCER
-const usersReducer = (state = [], action) => {
+export default function usersReducer(state = [], action) {
   switch (action.type) {
     case ADD_USER:
-      return [...action.user];
+      return [...state, action.user];
+    default:
+      return state;
   }
-};
-
-export default usersReducer;
+}

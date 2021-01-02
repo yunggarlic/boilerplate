@@ -4,12 +4,14 @@ const User = require('../db/user');
 
 router.get('/', async (req, res, next) => {
   const users = await User.findAll();
+  console.log('hello?');
   res.status(200).send(users);
 });
 
 router.post('/', async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
+    console.log(newUser);
     res.status(201).json(newUser);
   } catch (error) {
     next(error);
