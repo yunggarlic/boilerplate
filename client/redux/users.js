@@ -1,32 +1,71 @@
 import axios from 'axios';
 
 //action type
-const ADD_USER = 'ADD_USER';
+const GET_USER = 'GET_USER';
+const SET_FETCHING_STATUS = 'SET_FETCHING_STATUS';
 
-//action creator
+//action creators
+//GET ME
+const gotMe = (user) => ({
+  type: GET_USER,
+  user,
+});
 
-//GET
+const setFetchingStatus = (isFetching) => ({
+  type: SET_FETCHING_STATUS,
+  isFetching,
+});
 
-//POST
-const addUser = (user) => {
-  return {
-    type: ADD_USER,
-    user: user,
+export const fetchMe = () => {
+  return async (dispatch) => {
+    dispatch(setFetchingStatus(true));
+    try {
+      const response = await axios.get('/auth/me');
+      dispatch(gotMe(response.data));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setFetchingStatus(false));
+    }
   };
 };
 
-export const postUser = (user) => {
-  return async (dispatch) => {
-    const { data } = await axios.post('/api/users', user);
-    dispatch(addUser(data));
-  };
+//LOG IN
+export const login = (credentials) => async (dispatch) => {
+  try {
+    const { data } = await axios.put('/auth/login', credentials);
+    dispatch(gotMe(data));
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 //REDUCER
-export default function usersReducer(state = [], action) {
+
+const initialState = {
+  user: {
+    isFetching: true,
+  },
+};
+
+export default function usersReducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_USER:
-      return [...state, action.user];
+    case GET_USER:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.user,
+        },
+      };
+    case SET_FETCHING_STATUS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isFetching: action.isFetching,
+        },
+      };
     default:
       return state;
   }

@@ -1,26 +1,36 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import UserSignup from './UserSignup';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import UserPage from './UserPage';
+import UserLogin from './UserLogin';
+import { fetchMe } from '../redux/users';
 
-const Routes = () => {
-  return (
-    <Router>
-      <div>
-        <Route
-          path="/"
-          render={() => (
-            <div>
-              <h1>Hello world</h1>
-              <form>
-                <input type="text" />
-              </form>
-            </div>
-          )}
-        />
-        <Route path="/signup" component={UserSignup} />
-      </div>
-    </Router>
-  );
-};
+class Routes extends React.Component {
+  componentDidMount() {
+    this.props.fetchMe();
+  }
 
-export default Routes;
+  render() {
+    if (this.props.userCurrentlyBeingFetched) {
+      return <h1>Loading</h1>;
+    }
+    return (
+      <Router>
+        <Switch>
+          <Route exact path="/" component={UserLogin} />
+          <Route path="/home" component={UserPage} />
+        </Switch>
+      </Router>
+    );
+  }
+}
+
+const mapState = (state) => ({
+  userCurrentlyBeingFetched: state.user.isFetching,
+});
+
+const mapDispatch = (dispatch) => ({
+  fetchMe: () => dispatch(fetchMe()),
+});
+
+export default connect(mapState, mapDispatch)(Routes);
