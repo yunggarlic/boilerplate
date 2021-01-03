@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom';
 
 const UserPage = (props) => {
   const { user, handleClick } = props;
-
   if (!user.id) {
     return <Redirect to="/" />;
   }

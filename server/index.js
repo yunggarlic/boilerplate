@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //Sessions
 
+//Every time a req(uest) is made, a session object is added on as req.session that we can read and manipulate
 app.use(
   session({
     secret: '17f#jak20',
@@ -65,7 +66,8 @@ app.use((req, res, next) => {
 
 //error handling general
 app.use((err, req, res, next) => {
-  res.status(500).send('Yikes!');
+  res.status(err.status || 500);
+  res.send(err.message || 'Internal server error');
 });
 
 module.exports = app;

@@ -6,6 +6,7 @@ const SET_FETCHING_STATUS = 'SET_FETCHING_STATUS';
 
 //action creators
 //GET ME
+
 const gotMe = (user) => ({
   type: GET_USER,
   user,
@@ -43,28 +44,19 @@ export const login = (credentials) => async (dispatch) => {
 //REDUCER
 
 const initialState = {
-  user: {
-    isFetching: true,
-  },
+  isFetching: true,
 };
 
 export default function usersReducer(state = initialState, action) {
   switch (action.type) {
     case GET_USER:
       return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.user,
-        },
+        ...action.user,
       };
     case SET_FETCHING_STATUS:
       return {
-        ...state,
-        user: {
-          ...state.user,
-          isFetching: action.isFetching,
-        },
+        ...state.user,
+        isFetching: action.isFetching,
       };
     default:
       return state;
