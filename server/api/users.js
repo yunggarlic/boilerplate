@@ -4,7 +4,6 @@ const User = require('../db/user');
 
 router.get('/', async (req, res, next) => {
   const users = await User.findAll();
-  console.log('hello?');
   res.status(200).send(users);
 });
 

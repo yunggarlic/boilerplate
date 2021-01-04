@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { logout } from '../redux/users';
 
 const UserPage = (props) => {
   const { user, handleClick } = props;
+  console.log(user);
   if (!user.id) {
     return <Redirect to="/" />;
   }
@@ -28,8 +30,7 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch, ownProps) => {
   return {
     async handleClick() {
-      const thunk = logout();
-      await dispatch(thunk);
+      await dispatch(logout());
       ownProps.history.push('/');
     },
   };

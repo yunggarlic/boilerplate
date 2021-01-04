@@ -41,6 +41,18 @@ export const login = (credentials) => async (dispatch) => {
   }
 };
 
+//LOG OUT
+export const logout = () => {
+  return async (dispatch) => {
+    try {
+      await axios.delete('/auth/logout');
+      dispatch(gotMe({}));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
 //REDUCER
 
 const initialState = {
@@ -50,12 +62,10 @@ const initialState = {
 export default function usersReducer(state = initialState, action) {
   switch (action.type) {
     case GET_USER:
-      return {
-        ...action.user,
-      };
+      return { ...action.user };
     case SET_FETCHING_STATUS:
       return {
-        ...state.user,
+        ...state,
         isFetching: action.isFetching,
       };
     default:
