@@ -12,10 +12,13 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      len: [7, 100],
-    },
+  },
+  imageUrl: {
+    type: Sequelize.TEXT,
+    defaultValue: '',
+  },
+  googleId: {
+    type: Sequelize.STRING,
   },
 });
 

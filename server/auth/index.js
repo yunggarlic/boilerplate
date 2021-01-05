@@ -1,6 +1,8 @@
 const User = require('../db/user');
 const router = require('express').Router();
 
+router.use('/google', require('./oauth'));
+
 const userNotFound = (next) => {
   const err = new Error('Not Found');
   err.status = 404;
@@ -9,8 +11,12 @@ const userNotFound = (next) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    if (!req.session.userId) {
-      userNotFound(next);
+    if (!req.session.id) {
+      if (req.user) {
+        res.json(req.user);
+      } else {
+        res.sendStatus(401);
+      }
     } else {
       const user = await User.findByPk(req.session.userId);
       user ? res.json(user) : userNotFound(next);

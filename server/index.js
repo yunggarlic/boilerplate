@@ -4,6 +4,7 @@ const path = require('path');
 const chalk = require('chalk');
 const morgan = require('morgan');
 const session = require('express-session');
+const passport = require('passport');
 
 const apiRoutes = require('./api');
 const authRoutes = require('./auth');
@@ -14,7 +15,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//Sessions
+//--------------------Sessions
 
 //Every time a req(uest) is made, a session object is added on as req.session that we can read and manipulate
 app.use(
@@ -24,7 +25,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+//sessions logging
 app.use((req, res, next) => {
   console.log(chalk.bgBlueBright.yellow('\n\nNew Request'));
   console.log(chalk.bgBlueBright.black('Sessions:'), req.session);
@@ -33,6 +34,12 @@ app.use((req, res, next) => {
   console.log(chalk.bgBlueBright.black('Cookie:'), req.session.cookie);
   next();
 });
+
+//------------------Passport
+//must be introduced after express session middleware
+//introduces passport middleware that is preconfigured with express as a part of the package.
+app.use(passport.initialize());
+app.use(passport.session());
 
 //counts the total number of times people have connected and an individual's (mine) number of times connected
 let globalRecCount = 0;

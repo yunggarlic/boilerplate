@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { login } from '../redux/users';
+import OauthLoginForm from './OauthLoginForm';
 
 const UserLogin = (props) => {
   const { handleSubmit } = props;
@@ -13,6 +14,7 @@ const UserLogin = (props) => {
           <input type="text" name="password" placeholder="password" />
           <button type="submit">Submit</button>
         </form>
+        <OauthLoginForm />
       </div>
     </div>
   );
