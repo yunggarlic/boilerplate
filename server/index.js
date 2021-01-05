@@ -20,9 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 //Every time a req(uest) is made, a session object is added on as req.session that we can read and manipulate
 app.use(
   session({
-    secret: '17f#jak20',
+    secret: process.env.SESSION_SECRET || require('../secret'),
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
   })
 );
 //sessions logging
