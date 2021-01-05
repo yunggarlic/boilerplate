@@ -60,7 +60,7 @@ app.use('/api', apiRoutes);
 app.use('/auth', authRoutes);
 
 //just gettin it
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 

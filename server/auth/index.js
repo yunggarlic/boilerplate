@@ -11,7 +11,7 @@ const userNotFound = (next) => {
 
 router.get('/me', async (req, res, next) => {
   try {
-    if (!req.session.id) {
+    if (!req.session.userId) {
       if (req.user) {
         res.json(req.user);
       } else {
@@ -35,8 +35,7 @@ router.put('/login', async (req, res, next) => {
       },
     });
     if (user) {
-      req.session.userId = user.id;
-      res.json(user);
+      req.login(user, (err) => (err ? next(err) : res.json(user)));
     } else {
       const err = new Error('Incorrect email or password');
       err.status = 401;
@@ -48,8 +47,11 @@ router.put('/login', async (req, res, next) => {
 });
 
 router.delete('/logout', (req, res, next) => {
-  req.session.destroy();
-  res.status(204).end();
+  req.logout();
+  req.session.destroy((err) => {
+    if (err) return next(err);
+    res.status(204).end();
+  });
 });
 
 module.exports = router;
