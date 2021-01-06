@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const bcrypt = require('bcryptjs');
 const router = require('express').Router();
 const { User } = require('../db');
 const passport = require('passport');

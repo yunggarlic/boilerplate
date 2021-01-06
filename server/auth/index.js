@@ -1,5 +1,6 @@
 const User = require('../db/user');
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
 
 router.use('/google', require('./oauth'));
 
@@ -31,10 +32,9 @@ router.put('/login', async (req, res, next) => {
     const user = await User.findOne({
       where: {
         email: req.body.email,
-        password: req.body.password,
       },
     });
-    if (user) {
+    if (user && bcrypt.compareSync(req.body.password, user.password)) {
       req.login(user, (err) => (err ? next(err) : res.json(user)));
     } else {
       const err = new Error('Incorrect email or password');
