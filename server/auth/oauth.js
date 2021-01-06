@@ -1,9 +1,11 @@
+const chalk = require('chalk');
 const router = require('express').Router();
 const { User } = require('../db');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const verificationCallback = async (token, refreshToken, profile, done) => {
+  console.log(chalk.bgRedBright.black('Token'), token);
   try {
     const [user] = await User.findOrCreate({
       where: {

@@ -3,9 +3,9 @@ const app = express();
 const path = require('path');
 const chalk = require('chalk');
 const morgan = require('morgan');
-const session = require('express-session');
 const passport = require('passport');
-
+const session = require('express-session');
+const { dbStore } = require('./db');
 const apiRoutes = require('./api');
 const authRoutes = require('./auth');
 
@@ -21,8 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET || require('../secret'),
+    store: dbStore,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
   })
 );
 //sessions logging
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
   console.log(chalk.bgBlueBright.black('Sessions ID:'), req.session.id);
   console.log(chalk.bgBlueBright.black('Headers: '), req.headers);
   console.log(chalk.bgBlueBright.black('Cookie:'), req.session.cookie);
+  console.log(chalk.bgRedBright.black('User:', req.user));
   next();
 });
 
