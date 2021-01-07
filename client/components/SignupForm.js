@@ -7,6 +7,9 @@ const SignupForm = (props) => {
   return (
     <div>
       <h2>Sign up!</h2>
+      <button type="button" onClick={() => props.history.push('/')}>
+        Log in!
+      </button>
       <form onSubmit={handleSubmit}>
         <input type="text" name="email" placeholder="email"></input>
         <input type="text" name="password" placeholder="password"></input>
