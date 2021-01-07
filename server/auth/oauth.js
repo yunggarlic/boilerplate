@@ -1,10 +1,11 @@
 const chalk = require('chalk');
-const bcrypt = require('bcryptjs');
 const router = require('express').Router();
 const { User } = require('../db');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-require('../../secret');
+if (process.env.NODE_ENV !== 'production') {
+  require('../../secret');
+}
 
 const verificationCallback = async (token, refreshToken, profile, done) => {
   console.log(chalk.bgRedBright.black('Token'), token);
