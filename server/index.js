@@ -7,6 +7,7 @@ const session = require('express-session');
 const { dbStore } = require('./db');
 const apiRoutes = require('./api');
 const authRoutes = require('./auth');
+const yay = 0;
 
 if (process.env.NODE_ENV !== 'production') {
   require('../secret');
