@@ -30,8 +30,12 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch, ownProps) => {
   return {
     async handleClick() {
-      await dispatch(logout());
-      ownProps.history.push('/');
+      try {
+        await dispatch(logout());
+        ownProps.history.push('/');
+      } catch (e) {
+        ownProps.history.push('/signup');
+      }
     },
   };
 };
