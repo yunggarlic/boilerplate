@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - 12 # uses version 12
+services:
+  - postgresql # starts up postgres
+addons:
+  postgresql: '10' # recent postgres version on Travis
+dist: xenial # uses xenial environment
+notifications:
+  email:
+    on_success: change # default: change (only when going from broken to fixed)
+    on_failure: always # default: always (which is annoying, as it should be)
+install:
+  - npm ci # faster, goes only from package-lock
+before_script:
+  - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+script:
+  - npm test # test the code
+  - npm run build-client # make the bundle
+# before_deploy:
+#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
+# deploy:
+#   skip_cleanup: true # prevents travis from deleting the build
+#   provider: heroku
+#   app: agile-meadow-30672 # see README
+#   api_key:
+#     secure: "W6FxY0cYjTagBbu+dZ3QkkJ1KOLG/lERxBMYMTdEgPddSXRdENuZR19UL/9+1dEDNmVKiKo9eFnd+YRADs4IwG6q9iGBxeyyic2YOqdFK8aelmQ3fl2474+7N9MhhuveCwUZBPt3wTerZ+BbcEuPlyHlnVxZzl/hLGDxgAB5DzDLuF0vqSJOso+8//YJE9UWWqSK8qI7nVOytRp/5gJv6vibHNW8cjOHqKKiApLQqE04sguxYObv9YRYnR3L2x7mGfwRx2ENVEBsncEaNLWxKHpyQylh6stJbalq7uefoLsSFY58+llVxpzngPTbMEyuo4yPhhU7r47FysLLrmhxcCmY88pdhYvcSf0UH0KtMgKI8pYMwB5ArQXLxg2n00QoRJyxlMUXv058xQozbY88FodouAak6nHFJXQMScfIP6uzUTzPQe3dii7Qe0sq1b8Cgx7udvS4gaMbE0cdHOKvK6mhsLYMFNwat2ul0kc9vrGzyzYPNYYoIxqIvSpZOMWJ+IcfFqNsVLLxsXO6aihwVoOfKQ+eIXCP30UyJZrW9anMaFnSs4OT3TzTsnvMDLjjXoml9ek6G+5lFz0u8FVA4vonIJr9mJJU2Hsx15d0oc1IfXeL+xwWUiY1CBOl7WoeoIQMJUDb77XVvc9iACx3LRMKR6XiOyF1bLI6Lgih+88=" # see README
