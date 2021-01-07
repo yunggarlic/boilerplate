@@ -1,13 +1,30 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const chalk = require('chalk');
 const morgan = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
 const { dbStore } = require('./db');
 const apiRoutes = require('./api');
 const authRoutes = require('./auth');
+
+if (process.env.NODE_ENV !== 'production') {
+  require('../secret');
+}
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findByPk(id);
+    // will mean that `req.user` is equal to the user we just found
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
 
 app.use(morgan('dev'));
 
@@ -20,22 +37,22 @@ app.use(express.urlencoded({ extended: true }));
 //Every time a req(uest) is made, a session object is added on as req.session that we can read and manipulate
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || require('../secret'),
+    secret: process.env.SESSION_SECRET,
     store: dbStore,
     resave: false,
     saveUninitialized: true,
   })
 );
 //sessions logging
-app.use((req, res, next) => {
-  console.log(chalk.bgBlueBright.yellow('\n\nNew Request'));
-  console.log(chalk.bgBlueBright.black('Sessions:'), req.session);
-  console.log(chalk.bgBlueBright.black('Sessions ID:'), req.session.id);
-  console.log(chalk.bgBlueBright.black('Headers: '), req.headers);
-  console.log(chalk.bgBlueBright.black('Cookie:'), req.session.cookie);
-  console.log(chalk.bgRedBright.black('User:', req.user));
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(chalk.bgBlueBright.yellow('\n\nNew Request'));
+//   console.log(chalk.bgBlueBright.black('Sessions:'), req.session);
+//   console.log(chalk.bgBlueBright.black('Sessions ID:'), req.session.id);
+//   console.log(chalk.bgBlueBright.black('Headers: '), req.headers);
+//   console.log(chalk.bgBlueBright.black('Cookie:'), req.session.cookie);
+//   console.log(chalk.bgRedBright.black('User:', req.user));
+//   next();
+// });
 
 //------------------Passport
 //must be introduced after express session middleware

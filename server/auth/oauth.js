@@ -4,6 +4,7 @@ const router = require('express').Router();
 const { User } = require('../db');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+require('../../secret');
 
 const verificationCallback = async (token, refreshToken, profile, done) => {
   console.log(chalk.bgRedBright.black('Token'), token);
@@ -23,26 +24,11 @@ const verificationCallback = async (token, refreshToken, profile, done) => {
   }
 };
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findByPk(id);
-    // will mean that `req.user` is equal to the user we just found
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
-
 const strategy = new GoogleStrategy(
   {
-    clientID:
-      '512029508991-kg4l8303gf679rrbqpe8jjaghjp01a3d.apps.googleusercontent.com',
-    clientSecret: 'Q9BYhM-KS-J-3WX84IZMsnn8',
-    callbackURL: '/auth/google/callback',
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK,
   },
   verificationCallback
 );
