@@ -32,11 +32,20 @@ export const fetchMe = () => {
   };
 };
 
+//SIGN UP
+export const signup = (credentials) => async (dispatch) => {
+  try {
+    const { data } = await axios.post('/auth/signup', credentials);
+    dispatch(gotMe(data));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 //LOG IN
 export const login = (credentials) => async (dispatch) => {
   try {
     const { data } = await axios.put('/auth/login', credentials);
-    console.log('login data --->', data);
     dispatch(gotMe(data));
   } catch (error) {
     console.error(error);

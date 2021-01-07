@@ -8,13 +8,12 @@ import {
 } from 'react-router-dom';
 import UserPage from './UserPage';
 import UserLogin from './UserLogin';
+import SignupForm from './SignupForm';
 import { fetchMe } from '../redux/users';
 
 class Routes extends React.Component {
   async componentDidMount() {
-    console.log('before Fetch --> ', this.props.user);
     await this.props.fetchMe();
-    console.log('after fetch --> ', this.props.user);
   }
 
   render() {
@@ -24,6 +23,7 @@ class Routes extends React.Component {
     return (
       <Switch>
         <Route path="/home" component={UserPage} />
+        <Route component={SignupForm} />
         <Route component={UserLogin} />
       </Switch>
     );

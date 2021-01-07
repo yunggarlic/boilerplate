@@ -27,6 +27,18 @@ router.get('/me', async (req, res, next) => {
   }
 });
 
+router.post('/signup', async (req, res, next) => {
+  try {
+    const user = await User.create(req.body);
+    req.login(user, (err) => (err ? next(err) : res.json(user)));
+  } catch (error) {
+    if (err.name === 'SequelizeUniqueConstraitError') {
+      res.status(401).send('User already exists');
+    }
+    next(error);
+  }
+});
+
 router.put('/login', async (req, res, next) => {
   try {
     const user = await User.findOne({
