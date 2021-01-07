@@ -4,10 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "deploy": "script/deploy",
+    "heroku-token": "script/encrypt-heroku-auth-token.js",
+    "prepare": "if [ -d .git ]; then npm-merge-driver install; fi",
     "start": "node main.js",
-    "start-dev": "npm run build-watch & nodemon main.js",
+    "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
+    "start-server": "nodemon server",
     "build": "webpack --config webpack.config.js",
-    "build-watch": "webpack -w",
+    "build-client": "webpack",
+    "build-client-watch": "webpack -w",
     "seed": "node seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,9 +22,12 @@
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.0",
+    "child_process": "^1.0.2",
     "connect-session-sequelize": "^7.0.4",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "fs": "0.0.1-security",
+    "git-url-parse": "^11.4.3",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
@@ -33,7 +41,9 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "sequelize": "^6.3.5",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "simple-git": "^2.31.0",
+    "yaml": "^1.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
