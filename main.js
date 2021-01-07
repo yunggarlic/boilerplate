@@ -4,10 +4,11 @@ const { db } = require('./server/db');
 const { dbStore } = require('./server/db');
 
 //spin up the server, waiting for requests
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 async function run() {
   try {
+    await dbStore.sync();
     // console.log(chalk.green('dbStore synced'));
     await db.sync();
     //console.log(chalk.green('db synced'));
