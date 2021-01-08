@@ -6,10 +6,7 @@ const SignupForm = (props) => {
   const { handleSubmit } = props;
   return (
     <div>
-      <h2>Sign up!</h2>
-      <button type="button" onClick={() => props.history.push('/')}>
-        Log in!
-      </button>
+      <h1>Sign up</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" name="email" placeholder="email"></input>
         <input type="text" name="password" placeholder="password"></input>
@@ -28,7 +25,7 @@ const mapDispatch = (dispatch, ownProps) => {
         password: evt.target.password.value,
       });
       await dispatch(thunk);
-      ownProps.history.push('/');
+      ownProps.history.push('/login');
     },
   };
 };

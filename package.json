@@ -8,7 +8,7 @@
     "heroku-token": "script/encrypt-heroku-auth-token.js",
     "start": "node main.js",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
-    "start-server": "nodemon server",
+    "start-server": "nodemon main.js",
     "build": "webpack --config webpack.config.js",
     "build-client": "webpack",
     "build-client-watch": "webpack -w",

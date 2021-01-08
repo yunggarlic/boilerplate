@@ -22,9 +22,9 @@ class Routes extends React.Component {
     }
     return (
       <Switch>
-        <Route path="/home" component={UserPage} />
+        <Route exact path="/home" component={UserPage} />
         <Route path="/signup" component={SignupForm} />
-        <Route component={UserLogin} />
+        <Route path="/" component={UserLogin} />
       </Switch>
     );
   }

@@ -5,16 +5,15 @@ import { logout } from '../redux/users';
 
 const UserPage = (props) => {
   const { user, handleClick } = props;
-  console.log(user);
   if (!user.id) {
-    return <Redirect to="/" />;
+    return <Redirect to="/login" />;
   }
 
   return (
     <div>
       <div>
         <img src={user.imageUrl} />
-        <h1>Welcome back {user.email}!</h1>
+        <h1>Welcome {user.email}!</h1>
       </div>
       <div>
         <button onClick={handleClick}>Logout</button>

@@ -6,10 +6,12 @@ import '../public/index.css';
 
 import store from './store';
 import Routes from './components/Routes';
+import Navbar from './components/Navbar';
 
 render(
   <Provider store={store}>
     <Router>
+      <Navbar />
       <Routes />
     </Router>
   </Provider>,

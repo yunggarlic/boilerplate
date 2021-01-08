@@ -1,0 +1,24 @@
+body {
+  font-family: sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav a {
+  display: inline-block;
+  margin: 1em;
+}
+
+form {
+  margin: 1em;
+  display: inline-block;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px black solid;
+}

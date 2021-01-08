@@ -7,7 +7,7 @@ const SET_FETCHING_STATUS = 'SET_FETCHING_STATUS';
 //action creators
 //GET ME
 
-const gotMe = (user) => ({
+const getMe = (user) => ({
   type: GET_USER,
   user,
 });
@@ -22,8 +22,7 @@ export const fetchMe = () => {
     dispatch(setFetchingStatus(true));
     try {
       const { data } = await axios.get('/auth/me');
-      console.log('me data --> ', data);
-      dispatch(gotMe(data));
+      dispatch(getMe(data || {}));
     } catch (error) {
       console.error(error);
     } finally {
@@ -34,9 +33,14 @@ export const fetchMe = () => {
 
 //SIGN UP
 export const signup = (credentials) => async (dispatch) => {
+  let data;
   try {
-    const { data } = await axios.post('/auth/signup', credentials);
-    dispatch(gotMe(data));
+    res = await axios.post('/auth/signup', credentials);
+  } catch (error) {
+    return dispatch(getMe({ error: error }));
+  }
+  try {
+    dispatch(getMe(res.data));
   } catch (error) {
     console.error(error);
   }
@@ -46,7 +50,7 @@ export const signup = (credentials) => async (dispatch) => {
 export const login = (credentials) => async (dispatch) => {
   try {
     const { data } = await axios.put('/auth/login', credentials);
-    dispatch(gotMe(data));
+    dispatch(getMe(data));
   } catch (error) {
     console.error(error);
   }
@@ -57,7 +61,7 @@ export const logout = () => {
   return async (dispatch) => {
     try {
       await axios.delete('/auth/logout');
-      dispatch(gotMe({}));
+      dispatch(getMe({}));
     } catch (error) {
       console.error(error);
     }
