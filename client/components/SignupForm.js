@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { signup } from '../redux/users';
+import OauthLoginForm from './OauthLoginForm';
 
 const SignupForm = (props) => {
   const { handleSubmit } = props;
@@ -12,6 +13,7 @@ const SignupForm = (props) => {
         <input type="text" name="password" placeholder="password"></input>
         <button type="submit">Submit</button>
       </form>
+      <OauthLoginForm />
     </div>
   );
 };
