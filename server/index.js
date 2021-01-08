@@ -92,6 +92,7 @@ app.use((req, res, next) => {
 
 //error handling general
 app.use((err, req, res, next) => {
+  console.log(err);
   res.status(err.status || 500);
   res.send(err.message || 'Internal server error');
 });
